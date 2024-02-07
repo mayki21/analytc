@@ -132,6 +132,24 @@ router.get("/assignments/:agentId", async (req, res) => {
 });
 
 
+router.delete("/agents/:agentId", isAdmin, async (req, res) => {
+  try {
+    const agentId = req.params.agentId;
+
+    // Delete the agent from the User collection
+    await User.findByIdAndDelete(agentId);
+
+    // Delete any assignments associated with the agent
+    await Assignment.deleteMany({ agentId });
+
+    res.status(200).json({ message: "Agent deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting agent:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+
 
 
 
