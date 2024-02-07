@@ -2,11 +2,13 @@
 const express = require("express");
 const connection = require("./connection/db");
 require('dotenv').config();
+const cors = require('cors');
 const userRoutes = require("./routes/user");
 const adminRoutes = require("./routes/admin"); // Import admin routes
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 // Authentication middleware - Example: assuming you have a middleware function to authenticate users
 
