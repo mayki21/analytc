@@ -6,19 +6,19 @@ const Assignment = require("../model/Assignment");
 // Middleware to check if the user is an admin
 
 
-// const isAdmin = (req, res, next) => {
-//   if(true){
-//     console.log(req.user.userType)
-//   }
-//   if (req.user && req.user.userType === 'admin') {
-//     next(); // User is an admin, proceed to the next middleware
-//   } else {
-//     res.status(403).json({ message: "Forbidden" }); // User is not an admin, return Forbidden error
-//   }
-// };
+const isAdmin = (req, res, next) => {
+  if(true){
+    console.log(req.user.userType)
+  }
+  if (req.user && req.user.userType === 'admin') {
+    next(); // User is an admin, proceed to the next middleware
+  } else {
+    res.status(403).json({ message: "Forbidden" }); // User is not an admin, return Forbidden error
+  }
+};
 
 // POST route to create a new client (only accessible to admins)
-router.post("/clients", async (req, res) => {
+router.post("/clients",isAdmin, async (req, res) => {
   try {
     const { name, phoneNumber } = req.body;
 
