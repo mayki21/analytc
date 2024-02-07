@@ -131,6 +131,7 @@ router.get("/assignments/:agentId", async (req, res) => {
   }
 });
 
+// delete the agent by admin only 
 
 router.delete("/agents/:agentId", isAdmin, async (req, res) => {
   try {
@@ -149,7 +150,27 @@ router.delete("/agents/:agentId", isAdmin, async (req, res) => {
   }
 });
 
+ // update the agent details
 
+router.put("/agents/:agentId", isAdmin, async (req, res) => {
+  try {
+    const agentId = req.params.agentId;
+    const { name, email, password, phoneNumber } = req.body;
+
+    // Find the agent by ID and update their details
+    const updatedAgent = await User.findByIdAndUpdate(agentId, { name, email, password, phoneNumber }, { new: true });
+
+    // Check if the agent exists
+    if (!updatedAgent) {
+      return res.status(404).json({ message: "Agent not found" });
+    }
+
+    res.status(200).json({ message: "Agent updated successfully", agent: updatedAgent });
+  } catch (error) {
+    console.error("Error updating agent:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
 
 
 
