@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../model/user");
+require('dotenv').config();
+let jwt = require("jsonwebtoken");
 
 // POST route to register a new user
 router.post("/register", async (req, res) => {
@@ -24,6 +26,8 @@ router.post("/register", async (req, res) => {
   }
 });
 
+
+
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -40,11 +44,20 @@ router.post("/login", async (req, res) => {
     }
 
     // If everything is okay, user is authenticated
-    res.status(200).json({ message: "Login successful" });
+    // Generate JWT token
+    const token = jwt.sign(
+      { userId: user._id, userType: user.userType },
+      process.env.JWT_SECRET,
+      { expiresIn: "2h" }
+    );
+    
+    // Return token to the client
+    res.status(200).json({ message: "Login successful", token });
   } catch (error) {
     console.error("Error logging in:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
+
 
 module.exports = router;
