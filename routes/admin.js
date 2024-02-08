@@ -215,6 +215,49 @@ router.put("/agents/:agentId", isAdmin, async (req, res) => {
   }
 });
 
+// delete the client by admin only
+
+router.delete("/clients-del/:clientId", isAdmin, async (req, res) => {
+  try {
+    const clientId = req.params.clientId;
+
+    // Delete the client from the Client collection
+    await Client.findByIdAndDelete(clientId);
+
+    // Delete any assignments associated with the client
+    await Assignment.deleteMany({ clients: clientId });
+
+    res.status(200).json({ message: "Client deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting client:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+// edit the client by admin only
+
+router.put("/clients-edit/:clientId", isAdmin, async (req, res) => {
+  try {
+    const clientId = req.params.clientId;
+    const { name, phoneNumber } = req.body;
+
+    // Find the client by ID and update their details
+    const updatedClient = await Client.findByIdAndUpdate(clientId, { name, phoneNumber }, { new: true });
+
+    // Check if the client exists
+    if (!updatedClient) {
+      return res.status(404).json({ message: "Client not found" });
+    }
+
+    res.status(200).json({ message: "Client updated successfully", client: updatedClient });
+  } catch (error) {
+    console.error("Error updating client:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+
+
 
 
 
