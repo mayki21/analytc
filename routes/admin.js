@@ -52,6 +52,30 @@ router.post("/clients",isAdmin, async (req, res) => {
   }
 });
 
+router.post("/agents-create", isAdmin, async (req, res) => {
+  try {
+    const { name, email, password, phoneNumber, userType } = req.body;
+
+    // Check if the email is already registered
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already exists" });
+    }
+
+    // Create a new agent
+    const newAgent = new User({ name, email, password, phoneNumber, userType: 'agent' });
+    await newAgent.save();
+
+    res.status(201).json({ message: "Agent created successfully", agent: newAgent });
+  } catch (error) {
+    console.error("Error creating agent:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+
+
+
 
 
 
@@ -171,6 +195,13 @@ router.put("/agents/:agentId", isAdmin, async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
+
+
+
+
+
+
+
 
 
 
