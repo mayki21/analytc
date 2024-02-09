@@ -125,7 +125,7 @@ router.post("/login", async (req, res) => {
     );
     
     // Return token to the client along with userType
-    let response = { message: "Login successful", token, userType: user.userType,username:user.name };
+    let response = { message: "Login successful", token, userType: user.userType,username:user.name,phoneNumber:user.phoneNumber,userId: user._id };
 
     // If userType is agent, include agentId in the response
     if (user.userType === 'agent') {
