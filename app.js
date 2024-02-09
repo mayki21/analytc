@@ -1,4 +1,3 @@
-
 const express = require("express");
 const connection = require("./connection/db");
 require('dotenv').config();
