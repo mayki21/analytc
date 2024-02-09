@@ -126,11 +126,11 @@ router.post("/assign-client", isAdmin, async (req, res) => {
 
     // Iterate over each assignment object in the array
     for (const assignment of assignments) {
-      const { adminId, agentId, clientIds } = assignment;
-      console.log("adminId:", adminId, "agentId:", agentId, "clientIds:", clientIds);
+      const { adminId, agentId, clientId } = assignment;
+      console.log("adminId:", adminId, "agentId:", agentId, "clientIds:", clientId);
 
       // Create a new assignment with the provided agent and client IDs
-      const newAssignment = new Assignment({ adminId, agentId, clients: clientIds });
+      const newAssignment = new Assignment({ adminId, agentId, clients: clientId });
       await newAssignment.save();
 
       // Push the created assignment to the array
