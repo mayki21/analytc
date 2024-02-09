@@ -119,6 +119,7 @@ router.post("/assign-client", isAdmin, async (req, res) => {
   try {
     // Extract assignments from the request body
     const assignments = req.body;
+    console.log("assignments:", assignments);
 
     // Create an array to hold the created assignments
     const createdAssignments = [];
