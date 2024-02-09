@@ -188,23 +188,23 @@ router.get("/assignments",  async (req, res) => {
 });
 
 
-router.get("/assignments", async (req, res) => {
-  try {
-    // Fetch all assignments and populate the referenced fields
-    const assignments = await Assignment.find()
-      .populate('adminId', '_id'); // Only populate the adminId field with _id
+// router.get("/assignments", async (req, res) => {
+//   try {
+//     // Fetch all assignments and populate the referenced fields
+//     const assignments = await Assignment.find()
+//       .populate('adminId', '_id'); // Only populate the adminId field with _id
 
-    // Populate the agentId and clients fields as before
-    await Promise.all(assignments.map(async (assignment) => {
-      await assignment.populate('agentId').populate('clients').execPopulate();
-    }));
+//     // Populate the agentId and clients fields as before
+//     await Promise.all(assignments.map(async (assignment) => {
+//       await assignment.populate('agentId').populate('clients').execPopulate();
+//     }));
 
-    res.status(200).json({ assignments });
-  } catch (error) {
-    console.error("Error fetching assignments:", error);
-    res.status(500).json({ message: "Internal Server Error" });
-  }
-});
+//     res.status(200).json({ assignments });
+//   } catch (error) {
+//     console.error("Error fetching assignments:", error);
+//     res.status(500).json({ message: "Internal Server Error" });
+//   }
+// });
 
 
 router.get("/assignments/:agentId", async (req, res) => {
