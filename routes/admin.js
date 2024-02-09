@@ -172,20 +172,20 @@ router.get("/list-agents", isAdmin, async (req, res) => {
   }
 });
 
-// router.get("/assignments",  async (req, res) => {
-//   try {
-//     // Fetch all assignments and populate the referenced fields
-//     const assignments = await Assignment.find()
-//       .populate('adminId')
-//       .populate('agentId')
-//       .populate('clients');
+router.get("/assignments",  async (req, res) => {
+  try {
+    // Fetch all assignments and populate the referenced fields
+    const assignments = await Assignment.find()
+      .populate('adminId')
+      .populate('agentId')
+      .populate('clients');
 
-//     res.status(200).json({ assignments });
-//   } catch (error) {
-//     console.error("Error fetching assignments:", error);
-//     res.status(500).json({ message: "Internal Server Error" });
-//   }
-// });
+    res.status(200).json({ assignments });
+  } catch (error) {
+    console.error("Error fetching assignments:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
 
 
 router.get("/assignments", async (req, res) => {
