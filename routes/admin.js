@@ -99,20 +99,49 @@ router.post("/agents-create", isAdmin, async (req, res) => {
 
 
 
+// router.post("/assign-client", isAdmin, async (req, res) => {
+//   try {
+//     const { adminId, agentId, clientIds } = req.body;
+
+//     // Create a new assignment with the provided agent and client IDs
+//     const newAssignment = new Assignment({ adminId, agentId, clients: clientIds });
+//     await newAssignment.save();
+
+//     res.status(201).json({ message: "Clients assigned successfully", assignment: newAssignment });
+//   } catch (error) {
+//     console.error("Error assigning clients:", error);
+//     res.status(500).json({ message: "Internal Server Error" });
+//   }
+// });
+
+
 router.post("/assign-client", isAdmin, async (req, res) => {
   try {
-    const { adminId, agentId, clientIds } = req.body;
+    // Extract assignments from the request body
+    const assignments = req.body;
 
-    // Create a new assignment with the provided agent and client IDs
-    const newAssignment = new Assignment({ adminId, agentId, clients: clientIds });
-    await newAssignment.save();
+    // Create an array to hold the created assignments
+    const createdAssignments = [];
 
-    res.status(201).json({ message: "Clients assigned successfully", assignment: newAssignment });
+    // Iterate over each assignment object in the array
+    for (const assignment of assignments) {
+      const { adminId, agentId, clientIds } = assignment;
+
+      // Create a new assignment with the provided agent and client IDs
+      const newAssignment = new Assignment({ adminId, agentId, clients: clientIds });
+      await newAssignment.save();
+
+      // Push the created assignment to the array
+      createdAssignments.push(newAssignment);
+    }
+
+    res.status(201).json({ message: "Clients assigned successfully", assignments: createdAssignments });
   } catch (error) {
     console.error("Error assigning clients:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
+
 
 
 
