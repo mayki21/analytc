@@ -11,18 +11,17 @@ app.use(cors());
 
 // Authentication middleware - Example: assuming you have a middleware function to authenticate users
 
-
 // Register user routes
 app.use("/api/user", userRoutes);
 // Apply authentication middleware to admin routes
 app.use("/api/admin", adminRoutes);
 
-app.listen(process.env.PORT, async () => {
+app.listen(9999, async () => {
   try {
     await connection;
     console.log("Connected to MongoDB");
   } catch (error) {
     console.error("Error connecting to MongoDB:", error);
   }
-  console.log(`Server is running at ${process.env.PORT}`);
+  console.log(`Server is running at 9999`);
 });
